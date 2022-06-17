@@ -30,6 +30,12 @@
             </div>
         @enderror
 
+        @if(isset($APIError))
+            <div class="text-center bg-red-200 border-red-400 border inline-block pl-2 pr-2 pt-1 pb-1">
+                <i class="fa-solid fa-circle-exclamation"></i> {{ $APIError }}
+            </div>
+        @endif
+
     </div>
 
     @if(isset($WeatherData)) 
@@ -55,32 +61,32 @@
                     {{ $WeatherData['main']['temp'] }}&deg;
 
                     <div class="text-base text-gray-600">
-                        Feels like {{ $WeatherData['main']['feels_like'] }}&deg;
+                        <i class="fa-solid fa-temperature-half"></i> Feels like {{ $WeatherData['main']['feels_like'] }}&deg;
                     </div>
 
                     <div class="text-base text-gray-600">
-                        Max Temp. {{ $WeatherData['main']['temp_max'] }}&deg;
+                        <i class="fa-solid fa-temperature-full"></i> Max Temp. {{ $WeatherData['main']['temp_max'] }}&deg;
                     </div>
 
                     <div class="text-base text-gray-600">
-                        Min Temp. {{ $WeatherData['main']['temp_min'] }}&deg;
+                        <i class="fa-solid fa-temperature-empty"></i> Min Temp. {{ $WeatherData['main']['temp_min'] }}&deg;
                     </div>
 
                 </div>
 
                 <div class="text-2xl m-3">
-                    Humidity: {{ $WeatherData['main']['humidity'] }}
+                    <i class="fa-solid fa-droplet"></i> Humidity: {{ $WeatherData['main']['humidity'] }}
                 </div>
 
                 @if(isset($WeatherData['wind']['speed']))
                     <div class="text-2xl m-3">
-                        Wind Speed: {{ $WeatherData['wind']['speed'] }}
+                        <i class="fa-solid fa-wind"></i> Wind Speed: {{ $WeatherData['wind']['speed'] }}
                     </div>
                 @endif
 
                 @if(isset($WeatherData['rain']['1h']))
                     <div class="text-2xl m-3">
-                        Rain Volume (last hour): {{ $WeatherData['rain']['1h'] }}
+                        <i class="fa-solid fa-raindrops"></i> Rain Volume (last hour): {{ $WeatherData['rain']['1h'] }}
                     </div>
                 @endif
 

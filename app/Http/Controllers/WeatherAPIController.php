@@ -17,14 +17,39 @@ class WeatherAPIController extends Controller
         ]);
 
         $CityName = $request->city;
-        $APIKey = ENV('OPENWEATHER_API_KEY');
 
+        //Get API key depending on environment
+        if(ENV('APP_ENV') == 'local') {
+            $APIKey = ENV('OPENWEATHER_API_KEY_LOCAL');
+
+        } else if(ENV('APP_ENV') == 'testing') {
+            $APIKey = ENV('OPENWEATHER_API_KEY_TESTING');
+
+        } else if(ENV('APP_ENV') == 'production') {
+            $APIKey = ENV('OPENWEATHER_API_KEY_PROD');
+
+        } else {
+            //Environment is set to something unrecognised, default to local key
+            $APIKey = ENV('OPENWEATHER_API_KEY_LOCAL');
+        }
+           
         //Name validated, make request to API
         $response = Http::get('https://api.openweathermap.org/data/2.5/weather?q='.$CityName.'&appid='.$APIKey.'&units=metric');
-        $JSON = $response->json();
 
-        //Return data back to view
-        return view('app')-> with('WeatherData', $JSON);
+        //Check if response is successful (not a server error)
+        if(!$response->serverError()) {
+
+            //Return data back to view
+            $JSON = $response->json();
+            return view('app')-> with('WeatherData', $JSON);
+
+        } else {
+
+            //Return with server error
+            return view('app')->with('APIError', 'An error has occured, please try again later');
+
+        }
+    
         
     }
 
