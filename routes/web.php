@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\WeatherAPIController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', function () { return view('app'); });
+Route::post('/search', [WeatherAPIController::class, 'WeatherSearch'])->name('search');
