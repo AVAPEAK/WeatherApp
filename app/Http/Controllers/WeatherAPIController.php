@@ -56,7 +56,7 @@ class WeatherAPIController extends Controller
         }
            
         //Name validated, make request to API
-        $response = Http::get('https://api.openweathermap.org/data/2.5/weather?q='.$CityName.'&appid='.$APIKey.'&units=metric');
+        $response = Http::get('https://api.openweathermap.org/data/2.5/weather?q='.$CityName.',GB&appid='.$APIKey.'&units=metric');
 
         return $response;
 
