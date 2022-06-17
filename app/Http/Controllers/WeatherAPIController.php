@@ -18,6 +18,28 @@ class WeatherAPIController extends Controller
 
         $CityName = $request->city;
 
+        $response = $this->GetWeatherDataFromAPI($CityName);
+
+        //Check if response is successful (not a server error)
+        if(!$response->serverError()) {
+
+            //Return data back to view
+            $JSON = $response->json();
+            return view('app')-> with('WeatherData', $JSON);
+
+        } else {
+
+            //Return with server error
+            return view('app')->with('APIError', 'An error has occured, please try again later');
+
+        }
+    
+    }
+
+
+    //Function to call API and return response data
+    static function GetWeatherDataFromAPI($CityName) {
+
         //Get API key depending on environment
         if(ENV('APP_ENV') == 'local') {
             $APIKey = ENV('OPENWEATHER_API_KEY_LOCAL');
@@ -36,21 +58,8 @@ class WeatherAPIController extends Controller
         //Name validated, make request to API
         $response = Http::get('https://api.openweathermap.org/data/2.5/weather?q='.$CityName.'&appid='.$APIKey.'&units=metric');
 
-        //Check if response is successful (not a server error)
-        if(!$response->serverError()) {
+        return $response;
 
-            //Return data back to view
-            $JSON = $response->json();
-            return view('app')-> with('WeatherData', $JSON);
-
-        } else {
-
-            //Return with server error
-            return view('app')->with('APIError', 'An error has occured, please try again later');
-
-        }
-    
-        
     }
 
 }
